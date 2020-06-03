@@ -1,0 +1,62 @@
+NO2:
+
+- from:vehicle emissions,gas stoves,power plants, fossil fuel burning process
+- EPA anual mean limit: 0.053ppm (100 ug/m3)
+- controlled exposure to NO2 can elicit an inflammatory response in healthy subjects and
+can enhance the response to inhaled allergen in asthmatic subjects
+- mostly affects children. 
+- experimental studies: it increases susceptibility to influenza virus infections.
+	exposure to NO2 can adversely affect the development of virus-specific immunity
+	NO2-exposed mice were reinfected more that air-exposed mice 
+	usual dosis for experiments: 5ppm(6h/day) other 2ppm(3h/day)
+
+O3: 
+
+- from: formed by NOx + VOCs, also vehicle emissions, industrial processes, and chemical solvents, 
+	natural sources
+- EPA: 1h standard of 0.12ppm and 8h standard of 0.08ppm (1h standard revoked in 2015)
+- oxidative activity elicit inflammatory response in the lungs.
+- mostly affects old people (>65yr)
+- influenza: short-term in mice showed 1ppm exposure (3h/day) had effects after 1 day and 0.5ppm had no
+	   effects but change in lungs was more severe on exposed mice. 
+	    other study on mice-adapted strain of influenza showed that 0.5ppm exposure reduced the severity
+	   of the disease. Other infected mice and then exposed them w/ 0.5ppm with no effects
+	   but after 30days could see change in lungs (posibly because of oxidative activity of O3)
+- other virus: mixed results, some saw effects on inflammatory response, others no effect (posibly because it
+		depends on many  variables and O3 may have virucidal action that would reduce infectivity if subject
+		is exposed during infection)
+
+PM: 
+- mixture of particles and droplets in the air, consisting of a variety of components such as organic compounds, 
+	metals, acids, soil, and dust
+- coarse (aerodynamic diameter 2.5–10 µm), fine (<2.5 µm), and ultrafine (<0.1 µm).
+- from: coarse mainly from the abrasion of soil, brake, and tire materials, or the aggregation of smaller particles
+	fine and ultrafine particles are generated predominantly by the combustion of fossil fuels (especially from motor vehicles).
+- Smaller particles tend to be more of a health concern since they are easily respirable, can deposit deeper in the lungs than larger particles
+- majority of studies examining the health effects of exposure to ambient PM focus on the incidence of mortality and hospital admissions.
+- In a study examining the effects of PM2.5 levels in 23 different cities, it was estimated that approximately 17,000 premature deaths could be prevented
+	annually if long-term exposure to PM2.5 levels were reduced by 15 µg/m3 in each of the cities included in the study
+- rates of chronic cough, bronchitis, and chest illness were positively associated with levels of PM.
+- increased risk of mortality from pneumonia and influenza associated with a 10-µg/m3 increase in the levels of PM over the course of a few years.
+- short-term : 60-µg/m3  increase in PM resulted in a 27% increase in croup cases for children. 10-µg/m3 increase in same-day levels of PM resulted 
+	in increased hospital admissions for respiratory infections
+- experiments in mice: exposure to either concentrated ambient PM or ultrafine carbon black particles can significantly affect respiratory virus-induced 
+	inflammation and morbidity, which may at least partially be caused by the decreased ability of macrophages to phagocytize the virus and mount an effective 
+	immune response against the infection.
+
+Diesel exhaust:
+- DE contains both particulate phase as well as gas-phase components such as carbon monoxide, sulfur dioxide, nitric oxides, hydrocarbons, transition metals, and formaldehyde
+- short-term exposure in mice showed that DE-exposed mice were more susceptible to RSV (syncytial virus)
+- exposure to low  dose of DE of human respiratory epithelial to DE enhances the susceptibility to influenza infections
+- studies demonstrate that exposure to DE can enhance the susceptibility and response to respiratory viral infections, and may result in an enhancement
+	of the resulting morbidity of infection.
+
+indoor pollutants:
+- environmental tobacco smoke (ETS): studies mainly focused on children, associated to increased prevalence and severity of respiratory infections	
+-  parental smoking was associated with 22,000 hospitalizations and 1100 deaths involving children with RSV bronchiolitis
+- Studies in adults have shown that women exposed to ETS had a slightly increased risk of both more frequent colds and more prolonged colds
+- mechanism is unknown
+- Biomass fuels: wood, dung, charcoal, or agricultural residues, mainly used in less developed countries. Associated to development of acute respiratory
+infections in both adults and children. epidemiological evidence showing an association between exposure to biomass combustion and deaths caused by 
+respiratory infections in children
+
