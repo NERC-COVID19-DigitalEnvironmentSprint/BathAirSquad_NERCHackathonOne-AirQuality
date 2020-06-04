@@ -1,0 +1,8 @@
+info_by_region
+
+income available in thousands of euros, per habitant, 2018, i.stat
+
+health expenditure, 2016, in 
+http://noi-italia.istat.it/index.php?id=3&tx_usercento_centofe%5Bcategoria%5D=6&tx_usercento_centofe%5Bdove%5D=REGIONI&tx_usercento_centofe%5Baction%5D=show&tx_usercento_centofe%5Bcontroller%5D=Categoria&cHash=d3e721ea71c6566a2f464173edf78a0d
+
+
