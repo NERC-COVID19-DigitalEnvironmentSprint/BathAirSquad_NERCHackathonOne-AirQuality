@@ -87,6 +87,15 @@ while (i > 12) {
   i <- i - sampling_period
 }
 
+# The dataset is cleaned form unneeded data (data points before first COVID cases occured and data points without assigned county id)
+
+daily_data <- daily_data[!is.na(daily_data$id), ]
+daily_data <- daily_data[daily_data$previous_cases>0, ]
+
+# Dataset is sorted by county id
+
+daily_data <- daily_data[order(daily_data$id), ]
+
 # In the second dataset (weekly_data) both (sampling_period) and (sampling_period)are 7,
 # which correspond to weekly data with weekly number of new cases in each record.
 # This dataset can be used if the amount of daily data causes the INLA computation to be too long.
@@ -110,6 +119,15 @@ while (i > 12) {
   i <- i - sampling_period
 }
 
+# The dataset is cleaned form unneeded data (data points before first COVID cases occured and data points without assigned county id)
+
+weekly_data <- weekly_data[!is.na(weekly_data$id), ]
+weekly_data <- weekly_data[weekly_data$previous_cases>0, ]
+
+# Dataset is sorted by county id
+
+weekly_data <- weekly_data[order(weekly_data$id), ]
+
 # Read the recent pollution data from EPA Air Data. The file is available at https://aqs.epa.gov/aqsweb/airdata/download_files.html
 
 pollution_2020 <- read.csv("daily_aqi_by_county_2020.csv")
@@ -125,9 +143,63 @@ pollution_2020 <- data.frame(id = pollution_2020$id,
                             day = as.numeric(difftime(pollution_2020$Date, first_record, units="days")),
                             daily_AQI = pollution_2020$AQI)
 
+# To each entry of daily and weekly data we assign the mean AQI in the last 2 weeks and 2 months before the given day.
+
+# As sometimes no data are available the extended version of mean function is used (NA is returned if no data are avaliable)
+
+mean_extended <- function(x) if (length(x) > 0) return(mean(x)) else return(NA)
+
+# The pollution measurements are extracted for each county separately; as we work on smaller extracted datasets it increases computation speed
+# The averages are saved in aqi_2weeks and aqi_2months vectors respectively.
+
+aqi_2weeks <- rep(0, nrow(daily_data))
+aqi_2months <- rep(0, nrow(daily_data))
+ids <- unique(daily_data$id)
+
+for (i in 1:length(ids)) {
+  if (i %% 100 == 0) print(paste(i,"/",length(ids),sep=""))
+  id = ids[i]
+  
+  # Extract rows with given county id from pollution_2020 and daily data data frames 
+  
+  extracted_rows <- which(daily_data$id==id)
+  extracted_pollution <- pollution_2020[pollution_2020$id == id, ]
+  extracted_days <- daily_data[extracted_rows, ]
+  
+  # For each row in extracted daily data compute the 2-week and 2-month AQI mean
+  
+  aqi_2weeks[extracted_rows] <- apply(extracted_days, 1, FUN = function (x) mean_extended(extracted_pollution[
+    as.numeric(x["day"]) - extracted_pollution$day > 0 & as.numeric(x["day"]) - extracted_pollution$day <= 14, "daily_AQI"]))
+  aqi_2months[extracted_rows] <- apply(extracted_days, 1, FUN = function (x) mean_extended(extracted_pollution[
+    as.numeric(x["day"]) - extracted_pollution$day > 0 & as.numeric(x["day"]) - extracted_pollution$day <= 60, "daily_AQI"]))
+}
+
+# Add computed aqi means to the daily_data data frame
+
+daily_data$AQI_2weeks <- aqi_2weeks
+daily_data$AQI_2months <- aqi_2months
+
+# The same operation is repeated for weekly_data (see explanation above)
+
+aqi_2weeks <- rep(0, nrow(weekly_data))
+aqi_2months <- rep(0, nrow(weekly_data))
+for (i in 1:length(ids)) {
+  if (i %% 100 == 0) print(paste(i,"/",length(ids),sep=""))
+  id = ids[i]
+  extracted_rows <- which(weekly_data$id==id)
+  extracted_pollution <- pollution_2020[pollution_2020$id == id, ]
+  extracted_days <- weekly_data[extracted_rows, ]
+  aqi_2weeks[extracted_rows] <- apply(extracted_days, 1, FUN = function (x) mean_extended(extracted_pollution[
+    as.numeric(x["day"]) - extracted_pollution$day > 0 & as.numeric(x["day"]) - extracted_pollution$day <= 14, "daily_AQI"]))
+  aqi_2months[extracted_rows] <- apply(extracted_days, 1, FUN = function (x) mean_extended(extracted_pollution[
+    as.numeric(x["day"]) - extracted_pollution$day > 0 & as.numeric(x["day"]) - extracted_pollution$day <= 14, "daily_AQI"]))
+}
+weekly_data$AQI_2weeks <- aqi_2weeks
+weekly_data$AQI_2months <- aqi_2months
+
 # The extracted average AQI data is merged with daily_data and weekly_data
-daily_data <- merge(daily_data, pollution_2020, all.x=TRUE)
-weekly_data <- merge(weekly_data, pollution_2020, all.x=TRUE)
+#daily_data <- merge(daily_data, pollution_2020, all.x=TRUE)
+#weekly_data <- merge(weekly_data, pollution_2020, all.x=TRUE)
 
 # Read area of each US county, data set can be downloaded from
 # https://www2.census.gov/library/publications/2001/compendia/ccdb00/tabB1.pdf?#

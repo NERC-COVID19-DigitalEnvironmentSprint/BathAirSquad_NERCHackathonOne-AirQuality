@@ -31,6 +31,10 @@ if("ggplot2" %in% rownames(installed.packages())==FALSE){install.packages("ggplo
 if("dplyr" %in% rownames(installed.packages())==FALSE){install.packages("dplyr"); require(dplyr)}else{require(dplyr)}
 if("corrplot" %in% rownames(installed.packages())==FALSE){install.packages("corrplot"); require(corrplot)}else{require(corrplot)}
 
+# Set the working directory
+
+setwd("C://Users//PiotrMorawiecki//Desktop//Hackaton")
+
 # Plots are generated if generatePlots is set to TRUE
 
 generatePlots <- TRUE
@@ -100,14 +104,28 @@ pollution_data_2019 <- pollution_data_2019[!duplicated(pollution_data_2019),]
 
 # From annual_aqi_by_county_2019.csv (available via EPA website, URL provided above) extract average Air Quality Index (AQI) for 2019
 
-aqi_data_2019 <- read.csv("annual_aqi_by_county_2019.csv")
-aqi_data_2019 <- data.frame(State.Name = aqi_data_2019$State,
-                            county.Name = aqi_data_2019$County,
-                            AQI = aqi_data_2019$Median.AQI)
+aqi_data <- data.frame(State.Name = pollution_data_2019$State.Name, county.Name = pollution_data_2019$county.Name)
+
+for (year in c(2019, 2018, 2017, 2016)) {
+  aqi_data_new <- read.csv(paste("annual_aqi_by_county_", year, ".csv", sep = ""))
+  aqi_data_new <- data.frame(State.Name = aqi_data_new$State,
+                             county.Name = aqi_data_new$County,
+                             aqi_new = aqi_data_new$Median.AQI)
+  aqi_data <- merge(aqi_data, aqi_data_new, all = TRUE)
+  colnames(aqi_data)[ncol(aqi_data)] <- paste("AQI_", year, sep="")
+}
+
+# As sometimes no data are available the extended version of mean function is used (NA is returned if no data are avaliable)
+
+mean_extended <- function(x) if (sum(is.na(x)) == 0) mean(x) else NA
+
+aqi_data$AQI_4years <- (aqi_data$AQI_2019 + aqi_data$AQI_2018 + aqi_data$AQI_2017 + aqi_data$AQI_2016) / 4
+
+aqi_data <- aqi_data[,c("State.Name", "county.Name", "AQI_2019", "AQI_4years")]
 
 # Merge the dataset together
 
-pollution_data_2019 <- merge(pollution_data_2019, aqi_data_2019)
+pollution_data_2019 <- merge(pollution_data_2019, aqi_data)
 
 # The pollutant data are aggregated on county level by taking average from all monitoring stations located in given county
 
@@ -131,7 +149,7 @@ pollution_data_2019 <- pollution_data_2019[, -c(1,2)]
 
 # Shorten the names of all columns
 
-colnames(pollution_data_2019) <- c("state", "county", "annual_AQI", "SO2", "O3", "PM2.5", "PM10", "NO2", "NO", "NOx", "CO")
+colnames(pollution_data_2019) <- c("state", "county", "AQI_2019", "AQI_4years", "SO2", "O3", "PM2.5", "PM10", "NO2", "NO", "NOx", "CO")
 
 # Plot the correlation plot for the available data
 
