@@ -64,24 +64,49 @@ county_data <- county_data[!is.na(county_data$id),]
 
 # The daily_data data frame includes information from each day of pandemy. It will include spatial temporal data about number of cases.
 # The spatial points are separated by (sampling_period) days and will include the number of new cases and deaths in the last (sampling_period) days
-# and number of cases and deaths then. Both default values are 1, which correspond to daily data with daily number of new cases in each record.
-# If the amount of data causes the computation to be too long these values can be increased to reduce the dataset size.
+# and number of cases and deaths then.
+
+# In the first dataset (daily_data) both values are 1, which correspond to daily data with daily number of new cases in each record.
 
 daily_data <- data.frame()
 time_delay <- 1
 sampling_period <- 1
 
 # Rearrange the data from COVID_deaths_US and COVID_cases_US to format of daily_data, where each pair (region, date) are stored in a single row.
+
 i <- ncol(COVID_deaths_US) - time_delay
 while (i > 12) {
   additionalData <- data.frame(id = COVID_deaths_US$FIPS,
-                               day = i - 12,
+                               day = i - 12,     # day represent the number of days passed since the data started to be collected
                                previous_deaths = COVID_deaths_US[, i],
                                new_deaths = COVID_deaths_US[, i+time_delay] - COVID_deaths_US[, i],
                                previous_cases = COVID_cases_US[, i],
                                new_cases = COVID_cases_US[, i+time_delay-1] - COVID_cases_US[, i-1]
   )
   daily_data <- rbind(daily_data, additionalData)
+  i <- i - sampling_period
+}
+
+# In the second dataset (weekly_data) both (sampling_period) and (sampling_period)are 7,
+# which correspond to weekly data with weekly number of new cases in each record.
+# This dataset can be used if the amount of daily data causes the INLA computation to be too long.
+
+weekly_data <- data.frame()
+time_delay <- 7
+sampling_period <- 7
+
+# Rearrange the data from COVID_deaths_US and COVID_cases_US to format of weekly_data, where each pair (region, date) are stored in a single row.
+
+i <- ncol(COVID_deaths_US) - time_delay
+while (i > 12) {
+  additionalData <- data.frame(id = COVID_deaths_US$FIPS,
+                               day = i - 12,     # day represent the number of days passed since the data started to be collected
+                               previous_deaths = COVID_deaths_US[, i],
+                               new_deaths = COVID_deaths_US[, i+time_delay] - COVID_deaths_US[, i],
+                               previous_cases = COVID_cases_US[, i],
+                               new_cases = COVID_cases_US[, i+time_delay-1] - COVID_cases_US[, i-1]
+  )
+  weekly_data <- rbind(weekly_data, additionalData)
   i <- i - sampling_period
 }
 
@@ -100,8 +125,9 @@ pollution_2020 <- data.frame(id = pollution_2020$id,
                             day = as.numeric(difftime(pollution_2020$Date, first_record, units="days")),
                             daily_AQI = pollution_2020$AQI)
 
-# The extracted average AQI data is merged with daily_data
+# The extracted average AQI data is merged with daily_data and weekly_data
 daily_data <- merge(daily_data, pollution_2020, all.x=TRUE)
+weekly_data <- merge(weekly_data, pollution_2020, all.x=TRUE)
 
 # Read area of each US county, data set can be downloaded from
 # https://www2.census.gov/library/publications/2001/compendia/ccdb00/tabB1.pdf?#
@@ -156,3 +182,4 @@ county_data$density <- county_data$population / county_data$area
 
 write.csv(county_data, "county_data.csv", row.names = FALSE)
 write.csv(daily_data, "daily_data.csv", row.names = FALSE)
+write.csv(weekly_data, "weekly_data.csv", row.names = FALSE)
