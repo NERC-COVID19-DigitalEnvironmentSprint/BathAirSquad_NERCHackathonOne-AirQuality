@@ -32,7 +32,7 @@ Italy_Bayesian_Framework 	- contains data for Italy and the
 					Bayesian model as in the folder
 					Hackathon.
           
-   Folders:
+  	 Folders:
 		raw_data - data as downloaded from the resources as
 				described in the report.
 		processed_data - cleaned data ready to use as input for
