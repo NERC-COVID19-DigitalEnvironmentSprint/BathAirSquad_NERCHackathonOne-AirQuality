@@ -4,7 +4,7 @@ This folder contains several files related to the Hackathon One - Air Quality.
 
 A_Bayesian_Framework_for_Analysing_Air_Pollution_Effect_on_COVID_19_Infection_Rate.pdf - Document explaining the work done by the team. It contains the main ideas and conclusions as well as the description of the proposed model and its implementation.
 
-BathAirSquad_summary_presentation - presentation, with description of the proposed model and its implementation.
+BathAirSquad_summary_presentation - presentation, with description of the proposed model and its implementation. Link for video: https://drive.google.com/file/d/1itT-drrkAx7QJ3Zgf228DalWeQRMALTj/view
 
 USA_Bayesian_Framework - is the main folder containing all the data, R files to run the proposed INLA Bayesian Model. 
 
