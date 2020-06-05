@@ -6,13 +6,13 @@ A_Bayesian_Framework_for_Analysing_Air_Pollution_Effect_on_COVID_19_Infection_Ra
 
 USA_Bayesian_Framework - is the main folder containing all the data, R files to run the proposed INLA Bayesian Model. 
 
-Folders: 
+	Folders: 
 		raw_data - data as downloaded from the resources as described in the report.
 		processed_data - cleaned data ready to use as input for the model 
 		INLA_results - contains folders automatically generatedby the model with the results for each type of model 
 		as explained in the report. 
 	
-Files:
+	Files:
 	BathAirSquad_summary_presentation - presentation, with description of the proposed model and its
 		implementation.
 	INLA_Bayesian_Framework - main R file. Model proposed for this challenge. Details are described in the summary.
